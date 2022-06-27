@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener('DOMContentLoaded',()=>{
+
+            class Employee{
+                constructor(empno,ename,deptid){
+                    this.empno=empno;
+                    this.ename=ename;
+                    this.deptid=deptid;
+                }
+            }
+            class Logic{
+                constructor(){
+                    this.emp=[
+                        new Employee(1,"A",10),
+                        new Employee(2,"B",20),
+                        new Employee(3,"C",20),
+                        new Employee(4,"D",30)
+                ]
+                }
+
+                findemp(num){
+                    let temp={output:false,include:""};
+                    for(let i=0;i<this.emp.length;i++){
+                        if(this.emp[i].empno==num){
+                            temp.include =this.emp[i];
+                            temp.output=true;
+                            break;
+                        }
+                    }
+                    return temp;
+                }
+                showcontent(){
+                    let con="";
+                    for(let i=0;i<this.emp.length;i++){
+                        con +="<br/>"+" Emap No  "+this.emp[i].empno+",   "
+                                +" Emap name  "+this.emp[i].ename+",   "
+                                +" Emap dept  "+this.emp[i].deptid+",  ";
+                    }
+                    return con;
+                }
+                updatedata(num){
+                    let ename1=window.prompt();
+                    let deptid1=window.prompt();
+                    let temp={empno:num, ename:ename1, deptid:deptid1 };
+                    for(let i=0;i<this.emp.length;i++){
+                        if(this.emp[i].empno==num){
+                           this.emp.splice(i,1,temp);
+                        }
+                    }
+                  
+                }
+            }
+            let logic=new Logic
+
+            let show=document.querySelector("#show");
+            show.addEventListener('click',()=>{
+                document.querySelector("#array").innerHTML=logic.showcontent();
+            });
+            let num=document.querySelector("#empno");
+            num.addEventListener('blur',()=>{
+                console.log("Blurr");
+                let x=document.querySelector("#empno").value;
+                let op=logic.findemp(x);
+                console.log(op);
+                if(op.output){
+                    document.querySelector("#msg").innerHTML="Element Found";
+                    document.querySelector("#ename").value=op.include.ename;
+                    document.querySelector("#deptid").value=op.include.deptid;
+                    document.querySelector("#add").disabled=true;
+                    document.querySelector("#remove").disabled=false;
+                    document.querySelector("#update").disabled=false;
+                    
+                }
+                else{
+                    document.querySelector("#msg").innerHTML="Element NOT Found";
+                    document.querySelector("#ename").value="";
+                    document.querySelector("#deptid").value="";
+                    document.querySelector("#add").disabled=false;
+                    document.querySelector("#remove").disabled=true;
+                    document.querySelector("#update").disabled=true;
+                    
+                }
+
+            });
+
+            //To add
+            let add=document.querySelector("#add");
+            add.addEventListener('click',()=>{
+              let empno=document.querySelector("#empno").value;
+              let ename=document.querySelector("#ename").value;
+              let deptid=document.querySelector("#deptid").value;
+              logic.emp.push({empno:empno, ename:ename, deptid:deptid});
+              document.querySelector("#msg").innerHTML="Element Added";
+                     document.querySelector("#add").disabled=true;
+                    document.querySelector("#remove").disabled=false;
+                    document.querySelector("#update").disabled=false;});
+            
+            //to update
+            let up=document.querySelector("#update");
+            up.addEventListener('click',()=>{
+                console.log("update")
+                let op=logic.updatedata(+document.querySelector("#empno").value);
+                console.log(op);
+                document.querySelector("#msg").innerHTML="Element Updated";
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="empno" placeholder="Employee Number"/><span id="msg">Result</span><br><br>
+    <input type="text" id="ename" placeholder="Employee Name"/><br><br>
+    <input type="text" id="deptid" placeholder="Employee Dept"/><br><br>
+    <button id="add" disabled>Add</button>
+    <button id="remove" disabled>Remove</button>
+    <button id="update" disabled>Update</button>
+    <button id="show" >Show Content</button>
+    <button id="showid" >Show Content by id</button>
+    <br><br>
+    <span id="array"></span>
+</body>
+</html>

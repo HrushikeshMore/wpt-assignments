@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment1</title>
+</head>
+<script>
+  window.addEventListener('DOMContentLoaded',()=>{
+
+    let arr=[11,12,13,14,15,16,17,18,19,20];
+   console.log(arr);
+
+   function findNum(num){
+    let op=false;
+    for(let i=0;i<arr.length;i++){
+      if(arr[i]==num){
+        op=true;
+      }
+    }
+    return op;
+
+   }
+
+  function replaceval(newval){
+    let oldval=document.querySelector("#num");
+    let op=true;
+    for(let i=0;i<arr.length;i++){
+      if(newval==arr[i]){
+        op=false;
+        break;
+      }
+    }
+    if(op){
+      for(let i=0;i<arr.length;i++){
+        if(arr[i]==oldval.value){
+          arr[i]=newval;
+        }
+      }
+    }
+    return op;
+   }
+
+   function deletefun(num){
+    for(let i=0;i<arr.length;i++){
+      if(arr[i]==num){
+        arr.splice(i,1);
+        break;
+      }
+    }
+    return true;
+   }
+   function oddposition(){
+    let a="";
+    for(let i=0;i<arr.length;i++){
+      if((i+1) % 2 ==1){
+        a += arr[i]+ ",";
+      }
+
+      
+    }
+    return a;
+   }
+
+   //setting blurr event on input text box 
+   const num=document.querySelector("#num");
+   num.addEventListener("blur",()=>{
+   
+   let op=findNum(num.value);
+   if(op){
+    console.log("Number Found");
+    document.querySelector("#msg").innerHTML="Number is in array";
+    document.querySelector("#add").disabled=true;
+    document.querySelector("#edit").disabled=false;
+    document.querySelector("#delete").disabled=false;
+    document.querySelector("#view").disabled=false;
+    document.querySelector("#oddview").disabled=false;
+
+
+   }
+   else{
+    console.log("Number Not Fond");
+    document.querySelector("#msg").innerHTML="Number is Not in array";
+    document.querySelector("#add").disabled=false;
+    document.querySelector("#edit").disabled=true;
+    document.querySelector("#delete").disabled=true;
+    document.querySelector("#view").disabled=false;
+    document.querySelector("#oddview").disabled=false;
+   }
+   });
+   //program for adding element
+   let add=document.querySelector("#add");
+   add.addEventListener('click',()=>{
+    let x=document.querySelector("#num");
+    arr.push(x.value);
+    console.log("value added");
+    document.querySelector("#msg").innerHTML="Number is Added into the array";
+    document.querySelector("#add").disabled=true;
+    document.querySelector("#edit").disabled=false;
+    document.querySelector("#delete").disabled=false;
+    document.querySelector("#view").disabled=false;
+    document.querySelector("#oddview").disabled=false;
+   });
+
+   //for Edit
+   let edit=document.querySelector("#edit");
+   edit.addEventListener('click',()=>{
+    let newval=window.prompt();
+    let op=replaceval(newval);
+    console.log("Edited Event")
+    document.querySelector("#msg").innerHTML="Number is Edited into the array";
+    document.querySelector("#add").disabled=true;
+    document.querySelector("#edit").disabled=true;
+    document.querySelector("#delete").disabled=true;
+    document.querySelector("#view").disabled=false;
+    document.querySelector("#oddview").disabled=false;
+   
+   });
+   //for deletion
+   let del =document.querySelector("#delete");
+   del.addEventListener('click',()=>{
+    let num=document.querySelector("#num").value;
+    let op=deletefun(num);
+    if(op){
+      document.querySelector("#msg").innerHTML="Number is Deleted";
+    document.querySelector("#add").disabled=true;
+    document.querySelector("#edit").disabled=true;
+    document.querySelector("#delete").disabled=true;
+    document.querySelector("#view").disabled=false;
+    document.querySelector("#oddview").disabled=false;
+    }
+   });
+   
+   // for display
+   let disp=document.querySelector("#view");
+   disp.addEventListener('click',()=>{
+    console.log("Inside view");
+    document.querySelector("#array").innerHTML=arr;
+   });
+
+    //for displaying odd positions
+    let odisp=document.querySelector("#oddview");
+    odisp.addEventListener('click',()=>{
+      console.log("Inside odd")
+      let op=oddposition();
+      document.querySelector("#array").innerText= op;
+    });
+
+
+  });
+</script>
+<body>
+  <h1 style="text-align: center;">Assignment1</h1>
+  <br>
+  <input type="text " id="num" placeholder="enter name Here"/>
+  <span id="msg">Result is Here</span>
+  <br>
+  <button id="add" disabled>Add</button>
+  <button id="edit" disabled>Edit</button>
+  <button id="delete" disabled>Delete</button>
+  <button id="view">ViewArray</button>
+  <button id="oddview">View Odd Index</button>
+  <br>
+  <span id="array"></span>
+</body>
+</html>

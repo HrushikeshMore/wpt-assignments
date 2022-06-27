@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment2</title>
+    <script>
+        //finding function
+
+        
+        
+        window.addEventListener('DOMContentLoaded',()=>{
+            let emp=[{empno:1, name:"A",deptno:10 },
+                       {empno:2, name:"B",deptno:20 },
+                       {empno:3, name:"C",deptno:20 },
+                       {empno:4, name:"D",deptno:30 }
+        
+                    ];
+
+
+                function disp(){
+                    let content = "";
+                for(let i=0; i<emp.length; i++){
+                    content += "<br/>"+ "[Emp No : "+emp[i].empno +",  ";
+                    content += "Emp Name : "+emp[i].name +",  ";
+                   
+                    content += "Emp Dept ID : "+emp[i].deptno +"]\n";
+                }
+                return content; 
+                }
+
+                // to find
+            function findemp(num){
+            let op =false;
+            let temp=""
+            for( let i=0;i<emp.length; i++ ) {
+                if(emp[i].empno==num){
+                    temp=emp[i];
+                }
+            }
+            return temp;
+        }
+
+
+        //function to modify
+        function modifyval(num){
+            let ename=window.prompt();
+            let deptid=window.prompt();
+            let temp={empno:num ,name:ename, deptno:deptid };
+            for(let i=0;i<emp.length;i++){
+                if(emp[i].empno==num){
+                    emp.splice(i,1,temp);
+                }
+            }
+        }
+
+
+            //for finding and blurr
+            let num = document.querySelector("#empno");
+            num.addEventListener('blur',()=>{
+                let op=findemp(num.value);
+                console.log("Blurr");
+                if(op){
+                    console.log(op);
+                    document.querySelector("#add").disabled=true;
+                    document.querySelector("#modify").disabled=false;
+                    document.querySelector("#remove").disabled=false;
+                    document.querySelector("#ename").value=op.name;
+                    document.querySelector("#deptno").value=op.deptno;
+                    document.querySelector("#msg").innerHTML=disp();
+
+                }
+                else{
+                    document.querySelector("#add").disabled=false;
+                    document.querySelector("#modify").disabled=true;
+                    document.querySelector("#remove").disabled=true;
+                    document.querySelector("#ename").value="";
+                    document.querySelector("#deptno").value="";
+                    document.querySelector("#msg").innerHTML=disp();
+                }
+            });
+
+            let modify=document.querySelector("#modify");
+            modify.addEventListener('click',()=>{
+                console.log("Modify");
+                let x=document.querySelector("#empno").value;
+               let op=modifyval(x);
+               document.querySelector("#msg").innerHTML=disp();
+
+            });
+            let add=document.querySelector("#add");
+            add.addEventListener('click',()=>{
+                console.log("ADD");
+             let empno=document.querySelector("#empno").value;
+             let ename=document.querySelector("#ename").value;
+             let deptno=document.querySelector("#deptno").value;
+             emp.push({empno:empno, name:ename, deptno:deptno});
+             document.querySelector("#add").disabled=true;
+                    document.querySelector("#modify").disabled=true;
+                    document.querySelector("#remove").disabled=true;
+                    
+                    document.querySelector("#msg").innerHTML=disp();
+            });
+
+            let remove=document.querySelector("#remove");
+            remove.addEventListener('click',()=>{
+                console.log("REmove");
+                let empno=document.querySelector("#empno").value;
+                for(let i=0;i<emp.length;i++){
+                    if(emp[i].empno=empno){
+                        emp.splice(i,1);
+                        break;
+                    }
+                }
+                document.querySelector("#add").disabled=false;
+                    document.querySelector("#modify").disabled=false;
+                    document.querySelector("#remove").disabled=true;
+                document.querySelector("#msg").innerHTML=disp();
+            });
+            
+
+            
+        });
+    </script>
+</head>
+<body>
+    <h1 style="text-align: center">Assignment2</h1>
+    <input type="text" id="empno" placeholder="Employee No"><br><br>
+    <input type="text" id="ename" placeholder="Employee Name"><br><br>
+    <input type="text" id="deptno" placeholder="Employee DeptNo"><br><br>
+
+
+
+    <button id="add" disabled>Add</button>
+    <button id="modify" disabled>Modify</button>
+    <button id="remove" disabled>Remove</button>
+    <button id="viewall" >View All</button>
+    <button id="viewdeptno" >View By deptNo</button>
+    <br><br>
+    <span id="msg"></span>
+
+</body>
+</html>
